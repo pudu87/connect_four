@@ -21,9 +21,9 @@ class Board
     puts
   end
 
-  def insert(column)
+  def insert(column, player)
     row = board.index { |row| row[column] != " " }.to_i
-    board[row-1][column] = "X"
+    board[row-1][column] = player
   end
 
   def valid_move?(column)
@@ -74,6 +74,3 @@ class Board
   end
 
 end
-
-# test = Board.new
-# test.show

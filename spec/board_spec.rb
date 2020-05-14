@@ -1,4 +1,3 @@
-require './lib/game.rb'
 require './lib/board.rb'
 
 RSpec.describe Board do
@@ -14,7 +13,7 @@ RSpec.describe Board do
 
   describe "#insert" do
     it "inserts a disc in the board" do
-      subject.insert(0)
+      subject.insert(0, 'X')
       expect(subject.board[-1][0]).not_to eq(" ")
     end
   end
@@ -80,54 +79,5 @@ RSpec.describe Board do
       expect(subject).not_to be_full
     end
   end
-
-end
-
-RSpec.describe Game do
-
-  describe "#start" do
-    context "enters the game loop when called" do
-      before { allow(subject).to receive(:input).and_return(nil) }
-      xit "and stops when victory is achieved" do
-        expect_any_instance_of(Board).to receive(:show)
-        expect_any_instance_of(Board).to receive(:victory?).and_return(false, true)
-        subject.start
-        expect_any_instance_of(Board).to receive(:victory?).exactly(2).times
-      end
-      xit "and stops when the board is full" do
-        expect_any_instance_of(Board).to receive(:show)
-        expect_any_instance_of(Board).to receive(:full?).and_return(false, true)
-        subject.start
-        expect_any_instance_of(Board).to receive(:full?).exactly(2).times
-      end
-    end
-  end
-
-  # PRIVATE
-
-  describe "#input" do
-    xit "asks for input and processes it" do
-      expect(STDOUT).to receive(:puts).with(instance_of(String))
-      allow(subject).to receive(:gets).and_return("1\n")
-      subject.input
-      expect(subject.choice).to eq(0)
-    end
-  end
-
-  describe "#valid_syntax?" do
-    xit "returns true if input has valid syntax" do
-      expect(subject.valid?(1)).to be_truthy
-    end
-    xit "returns false if input has invalid syntax" do
-      expect(subject.valid?(-1)).not_to be_truthy
-    end
-  end
-
-  describe "#switch_player" do
-    xit "switches player" do
-      subject.player = "X"
-      expect(subject.switch_player).to eq("O")
-    end
-  end 
 
 end
