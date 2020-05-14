@@ -69,6 +69,18 @@ RSpec.describe Board do
     end
   end
 
+  describe "#full?" do
+    it "returns true if the board is full" do
+      subject.board[0].fill('X')
+      expect(subject).to be_full
+    end
+    it "returns false if the board is not full" do
+      subject.board[0][0] = 'X'
+      subject.board[0][1] = ' '
+      expect(subject).not_to be_full
+    end
+  end
+
 end
 
 RSpec.describe Game do

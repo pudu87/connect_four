@@ -35,6 +35,10 @@ class Board
     diagonal_victory_down? || diagonal_victory_up?
   end
 
+  def full?
+    board[0].none?(/^ $/)
+  end
+
   private
 
   def horizontal_victory?(board=@board)
