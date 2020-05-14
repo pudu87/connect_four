@@ -32,17 +32,16 @@ class Board
 
   def victory?
     horizontal_victory? || vertical_victory? || 
-    down_diagonal_victory? || up_diagonal_victory?
+    diagonal_victory_down? || diagonal_victory_up?
   end
+
+  private
 
   def horizontal_victory?(board=@board)
     board.each do |row|
-      counter = 0
-      row.each_index do |i|
-        if i > 0
-          (row[i] == row[i-1] && row[i] != " ") ? counter += 1 : counter = 0
-          return true if counter == 3
-        end
+      row.each_index do |i, array=[]|
+        4.times { |n| array << row[i+n] }
+        return true if connected?(array)
       end
     end
     false
@@ -52,23 +51,22 @@ class Board
     horizontal_victory?(board.transpose)
   end
 
-  def down_diagonal_victory?(board=@board)
+  def diagonal_victory_down?(board=@board)
     board.each_index do |r|
-      board[r].each_index do |c|
-        counter = 0
-        4.times do |n|
-          if (0...no_rows).include?(r+n) && (0...no_columns).include?(c+n)
-            (board[r][c] == board[r+n][c+n] && board[r][c] != " ") ? counter += 1 : counter = 0
-            return true if counter == 4
-          end
-        end
+      board[r].each_index do |c, array = []|
+        4.times { |n| array << board[r+n][c+n] if board[r+n] }
+        return true if connected?(array)
       end
     end
     false
   end
 
-  def up_diagonal_victory?
-    down_diagonal_victory?(board.map(&:reverse))
+  def diagonal_victory_up?
+    diagonal_victory_down?(board.map(&:reverse))
+  end
+
+  def connected?(array)
+    array.size == 4 && array.uniq.size == 1 && array[0] != " "
   end
 
 end
